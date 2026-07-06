@@ -23,7 +23,12 @@ async def create_and_send_test_draft() -> int:
 
     from app.config import settings
     from app.database.database import async_session, close
-    from app.database.models import NewsCluster, RawArticle, Source
+    from app.database.models import (
+        DEFAULT_WORKSPACE_ID,
+        NewsCluster,
+        RawArticle,
+        Source,
+    )
     from app.services.content_generator import generate_article
     from app.services.generation_pipeline import record_delivery_result
     from app.services.notifier import send_to_moderators, set_bot
@@ -39,6 +44,7 @@ async def create_and_send_test_draft() -> int:
             )
             if not source:
                 source = Source(
+                    workspace_id=DEFAULT_WORKSPACE_ID,
                     name="Local Smoke Source",
                     url="https://local.test/ai-news-smoke",
                     type="rss",
@@ -50,6 +56,7 @@ async def create_and_send_test_draft() -> int:
                 await session.flush()
 
             cluster = NewsCluster(
+                workspace_id=DEFAULT_WORKSPACE_ID,
                 topic="Local Telegram smoke test",
                 topic_original="Local Telegram smoke test",
                 category="general",

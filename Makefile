@@ -10,7 +10,7 @@ logs:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f
 
 run:
-	python -m app.main
+	.venv/bin/python -m app.main
 
 psql:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml exec postgres psql -U $${POSTGRES_USER:-ainews} -d $${POSTGRES_DB:-ainews}
@@ -19,6 +19,9 @@ redis-cli:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml exec redis redis-cli
 
 local-check:
+	.venv/bin/python scripts/local_runtime_check.py --prepare-db --check-ai
+
+local-check-telegram:
 	.venv/bin/python scripts/local_runtime_check.py --prepare-db --telegram --check-ai
 
 local-bot-start:

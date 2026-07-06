@@ -63,6 +63,7 @@ def test_makefile_exposes_local_smoke_targets() -> None:
     ]:
         assert target in makefile
 
+    assert "scripts/local_runtime_check.py --prepare-db --check-ai" in makefile
     assert "scripts/local_runtime_check.py --prepare-db --telegram --check-ai" in makefile
     assert "scripts/create_local_test_draft.py" in makefile
 

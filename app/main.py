@@ -49,11 +49,13 @@ async def on_startup(bot: Bot) -> None:
     await ensure_schema()
     await seed_data()
     set_bot(bot)
+    # Validate the token before the scheduler starts: with a bad token the
+    # container would crash-loop, re-fetching every source on each restart.
+    me = await bot.get_me()
     if settings.scheduler_enabled:
         start_scheduler()
     else:
         logger.warning("Scheduler disabled by SCHEDULER_ENABLED=false")
-    me = await bot.get_me()
     logger.info(f"Bot started: @{me.username}")
 
 

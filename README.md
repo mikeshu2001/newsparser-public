@@ -35,7 +35,7 @@ cp .env.example .env
 - `POSTGRES_PASSWORD` — пароль БД (production-compose не стартует без явного пароля);
 - `OPENROUTER_API_KEY` — ключ для генерации в основном воркспейсе.
 
-`POSTGRES_HOST`/`REDIS_HOST` внутри Docker подставляются автоматически (`postgres`/`redis`), менять их не нужно. Затем:
+`POSTGRES_HOST`/`REDIS_HOST` внутри Docker подставляются автоматически (`postgres`/`redis`), менять их не нужно. Если порты 5432/6379 на машине заняты, задайте свои `POSTGRES_PORT`/`REDIS_PORT` в `.env` — их читают и compose, и приложение. Заглушки из `.env.example` (вида `sk-or-...`) обязательно замените реальными значениями: валидация конфига проверяет только их наличие, о неверном ключе вы узнаете по ошибке 401 при генерации. Затем:
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
@@ -118,7 +118,7 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 ```bash
 make up                       # dev Postgres/Redis с открытыми на хост портами
-python -m venv .venv && .venv/bin/pip install -r requirements.txt -r requirements-dev.txt
+python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt -r requirements-dev.txt
 cp .env.example .env          # BOT_TOKEN обязателен, хосты localhost уже стоят
 
 make run                      # бот в текущем терминале
@@ -168,6 +168,7 @@ tests/                    # pytest-suite: пайплайн, handlers, мигра
 
 ## Точки расширения
 
+- Шифрование BYOK-ключей воркспейсов в БД (сейчас OpenRouter-ключи хранятся в Postgres открытым текстом — учитывайте это при доступе к дампам).
 Что напрашивается достроить поверх текущей базы:
 
 - **Веб-кабинет** — управление источниками, промптом и очередью через браузер вместо команд бота.
