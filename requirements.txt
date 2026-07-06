@@ -1,0 +1,27 @@
+# Bot framework
+aiogram==3.17.0
+pydantic-settings==2.7.1
+
+# Database
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+
+# Redis
+redis==5.2.1
+
+# Parsing
+feedparser==6.0.11
+httpx==0.28.1
+beautifulsoup4==4.13.3
+
+# Scheduler
+apscheduler==3.11.0
+
+# Text matching
+rapidfuzz==3.11.0
+
+# AI Providers
+openai>=1.30.0
+
+# Logging
+loguru==0.7.3

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.oauth_ai_token.json
+
+# Codex CLI auth/state mounted into the bot container (server-side)
+codex-home/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes (local)
+postgres_data/
+redis_data/
+
+# Logs
+*.log
+.local_bot.log
+.local_bot.pid
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*

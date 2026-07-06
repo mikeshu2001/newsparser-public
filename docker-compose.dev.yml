@@ -1,0 +1,14 @@
+# Dev override: exposes DB ports to host so local bot can connect
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+services:
+  postgres:
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ainews}
+      POSTGRES_USER: ${POSTGRES_USER:-ainews}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ainews_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+  redis:
+    ports:
+      - "${REDIS_PORT:-6379}:6379"

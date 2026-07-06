@@ -1,0 +1,30 @@
+# Production override: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  bot:
+    build: .
+    env_file: .env
+    volumes:
+      # Codex CLI auth/state (auth.json + session cache) lives outside the
+      # image; codex refreshes tokens itself, so the mount must be writable.
+      - ./codex-home:/app/.codex
+    environment:
+      # Inside Docker network, services are reached by container name
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+      LOG_FORMAT: json
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          # Codex CLI spawns a node/rust process per generation call
+          # (~300-400MB peak on top of the bot) — 512M OOM-killed the bot.
+          memory: 1536M
+          cpus: "1.0"
+        reservations:
+          memory: 256M
+          cpus: "0.25"
